@@ -27,13 +27,15 @@ async def get_amadeus_token() -> str:
         return resp.json()["access_token"]
 
 
+from typing import Optional, Union
+
 async def search_flights_service(
     origin: str,
     destination: str,
     departure_date: str,
-    return_date: str | None,
+    return_date: Optional[str],
     adults: int,
-    non_stop: bool | str | None,
+    non_stop: Optional[Union[bool, str]],
 ):
     token = await get_amadeus_token()
 

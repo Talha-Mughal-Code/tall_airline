@@ -9,10 +9,10 @@ router = APIRouter()
 async def search_flights(
     origin: str = Query(..., min_length=3, max_length=3, description="Origin IATA code"),
     destination: str = Query(..., min_length=3, max_length=3, description="Destination IATA code"),
-    departure_date: str = Query(..., description="YYYY-MM-DD"),
-    return_date: Optional[str] = Query(None, description="YYYY-MM-DD for round-trip"),
+    departure_date: str = Query(..., alias="departureDate", description="YYYY-MM-DD"),
+    return_date: Optional[str] = Query(None, alias="returnDate", description="YYYY-MM-DD for round-trip"),
     adults: int = Query(1, ge=1, description="Number of adults"),
-    non_stop: Optional[bool] = Query(False, description="Only non-stop flights"),
+    non_stop: Optional[bool] = Query(False, alias="nonStop", description="Only non-stop flights"),
 ):
     """
     Search flights using Amadeus Flight Offers API.
