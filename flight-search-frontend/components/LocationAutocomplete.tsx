@@ -74,7 +74,7 @@ export function LocationAutocomplete({
         || (value ? { iataCode: value, cityName: value, name: value } : null)
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen} modal={false}>
             <PopoverTrigger asChild>
                 <Button
                     variant="outline"
@@ -88,7 +88,15 @@ export function LocationAutocomplete({
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0 bg-white">
+            <PopoverContent 
+                className="w-[var(--radix-popover-trigger-width)] max-w-[400px] p-0 bg-white shadow-2xl border-2 border-blue-200 rounded-lg"
+                align="start"
+                sideOffset={4}
+                side="bottom"
+                avoidCollisions={true}
+                collisionPadding={8}
+                style={{ zIndex: 99999 }}
+            >
                 <Command shouldFilter={false}>
                     <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
                         <input
@@ -98,7 +106,7 @@ export function LocationAutocomplete({
                             onChange={(e) => setQuery(e.target.value)}
                         />
                     </div>
-                    <CommandList>
+                    <CommandList className="max-h-[300px] overflow-y-auto">
                         {loading && <div className="p-4 text-center text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin inline mr-2" />Loading...</div>}
                         {!loading && locations.length === 0 && query.length >= 2 && (
                             <div className="py-6 text-center text-sm">No locations found.</div>

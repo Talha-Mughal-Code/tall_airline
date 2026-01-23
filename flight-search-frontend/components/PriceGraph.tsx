@@ -63,35 +63,70 @@ export function PriceGraph({ flights }: PriceGraphProps) {
 
     if (!flights.length) return null
 
+    // Generate gradient colors for bars (blue to sky to cyan)
+    const getBarColor = (index: number, total: number) => {
+        const colors = [
+            '#3b82f6', // blue-500
+            '#60a5fa', // blue-400
+            '#0ea5e9', // sky-500
+            '#06b6d4', // cyan-500
+            '#22d3ee'  // cyan-400
+        ]
+        // Distribute colors across bars
+        const colorIndex = Math.floor((index / total) * colors.length)
+        return colors[Math.min(colorIndex, colors.length - 1)]
+    }
+
     return (
-        <Card>
-            <CardHeader className="pb-2">
-                <CardTitle className="text-base">Price Distribution</CardTitle>
+        <Card className="border-2 border-blue-200/50 bg-white/90 backdrop-blur-sm shadow-lg">
+            <CardHeader className="pb-2 bg-gradient-to-r from-blue-100 via-sky-100 to-cyan-100 border-b-2 border-blue-200">
+                <CardTitle className="text-base font-black text-slate-800">Price Distribution</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-4">
                 <div className="h-[200px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <CartesianGrid 
+                                strokeDasharray="3 3" 
+                                vertical={false} 
+                                stroke="#bfdbfe" 
+                                strokeOpacity={0.3}
+                            />
                             <XAxis
                                 dataKey="range"
                                 fontSize={12}
                                 tickLine={false}
                                 axisLine={false}
+                                tick={{ fill: '#64748b', fontWeight: 600 }}
                             />
                             <YAxis
                                 allowDecimals={false}
                                 fontSize={12}
                                 tickLine={false}
                                 axisLine={false}
+                                tick={{ fill: '#64748b', fontWeight: 600 }}
                             />
                             <Tooltip
-                                cursor={{ fill: 'transparent' }}
-                                contentStyle={{ borderRadius: '8px' }}
+                                cursor={{ fill: 'rgba(59, 130, 246, 0.1)' }}
+                                contentStyle={{ 
+                                    borderRadius: '12px',
+                                    border: '2px solid #3b82f6',
+                                    background: 'linear-gradient(to bottom, #eff6ff, #e0f2fe)',
+                                    boxShadow: '0 4px 6px rgba(59, 130, 246, 0.2)',
+                                    fontWeight: 600
+                                }}
+                                labelStyle={{ color: '#3b82f6', fontWeight: 'bold' }}
+                                itemStyle={{ color: '#1e40af', fontWeight: 600 }}
                             />
-                            <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+                            <Bar dataKey="count" radius={[8, 8, 0, 0]}>
                                 {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill="hsl(var(--primary))" />
+                                    <Cell 
+                                        key={`cell-${index}`} 
+                                        fill={getBarColor(index, data.length)}
+                                        style={{ 
+                                            filter: 'drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3))'
+                                        }}
+                                    />
                                 ))}
                             </Bar>
                         </BarChart>

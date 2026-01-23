@@ -96,3 +96,43 @@
 body {
   @apply bg-background text-foreground antialiased;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar - Blue theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eff6ff;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #3b82f6, #0ea5e9, #06b6d4);
+  border-radius: 5px;
+  border: 2px solid #eff6ff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #2563eb, #0284c7, #0891b2);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 #eff6ff;
+}
+
+/* Ensure Radix UI Popover portals have high z-index */
+[data-radix-portal] {
+  z-index: 99999 !important;
+}
+
+/* Ensure PopoverContent is above everything */
+[data-radix-popper-content-wrapper] {
+  z-index: 99999 !important;
+}
